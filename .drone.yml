@@ -1,7 +1,13 @@
+workspace:
+  base: /go
+  # Preserve the upstream path for Go
+  path: src/github.com/jtblin/kube2iam
+
 pipeline:
   test:
     image: golang:1.8.3
     commands:
+      - make setup
       - make test
     when:
       event: [push, pull_request]
@@ -9,6 +15,7 @@ pipeline:
   release:
     image: golang:1.8.3
     commands:
+      - make setup
       - make check
       - make test
     when:
