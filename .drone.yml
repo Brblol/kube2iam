@@ -9,19 +9,21 @@ pipeline:
     commands:
       - make setup
       - make test
-    when:
-      event: [push, pull_request]
+      - make check
 
   release:
     image: golang:1.8.3
     commands:
-      - make setup
-      - make check
-      - make test
+      - make cross
     when:
       event: tag
 
-# TODO: Add docker build + push
+ecr:
+  image: plugins/ecr
+  repo: 258875347723.dkr.ecr.us-east-1.amazonaws.com/kube2iam
+  registry: 258875347723.dkr.ecr.us-east-1.amazonaws.com
+  region: us-east-1
+  tags: ${DRONE_TAG}
 
 # TODO: Enable this
 #  slack:
