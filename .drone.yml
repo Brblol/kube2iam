@@ -1,0 +1,23 @@
+pipeline:
+  test:
+    image: golang:1.8.3
+    commands:
+      - make test
+    when:
+      event: [push, pull_request]
+
+  release:
+    image: golang:1.8.3
+    commands:
+      - make check
+      - make test
+    when:
+      event: tag
+
+# TODO: Add docker build + push
+
+# TODO: Enable this
+#  slack:
+#    image: plugins/slack
+#    webhook: https://hooks.slack.com/services/...
+#    channel: ci-notifications
